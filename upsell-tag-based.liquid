@@ -1,1 +1,57 @@
+<!-- Upsell Product On Tag Based -->
+{% for tg in product.tags %}
+{% if tg contains 'upsell_' %}
+{% assign upsell_handle = tg | replace: 'upsell_', '' %}
+{% endif %}
+{% endfor %}
 
+{% assign upsell__product = all_products[upsell_handle] %}
+{% assign upsell_variant = all_products[upsell_handle].selected_or_first_available_variant %}
+
+{% unless upsell__product.title == "" %}
+<div class="upsell_bg hide"></div>
+<div class="upsell_tagBased hide">
+  <span class="close">X</span>
+  <div class="upsell__product">
+    <div class="upsell__product_image">
+      <img src="{{ upsell__product.featured_image | img_url:'x300'  }}" class="upsell__img">
+    </div>
+    <div class="upsell__product_details">
+      <div class="upsell__product_info">
+        <p class="upsell_product_title">
+          <a href="{{upsell__product.url}}">{{upsell__product.title}}</a>
+        </p>
+      </div>
+      <div class="upsell__product_price-quantity">
+        <div class="upsell_product_price">
+          <p class=up_price>{{upsell__product.price | money }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="upsell_addtocart_button">
+    <div class="yes_tocart_button">
+      <form class="product-form product-form--ajax" {% if settings.enable_skip_to_checkout %}data-skip-cart="true"{% endif %} action="/cart/add" method="post" enctype="multipart/form-data">
+        <input name="id" value="{{ upsell_variant.id }}" type="hidden" />
+        <button type="submit" name="add" class="add-to-cart btn cutom_atc" data-add-to-cart data-variant="{{ upsell_variant.id }}" {% unless upsell_variant.available %}disabled="disabled"{% endunless %}>
+          <span data-add-to-cart-text>
+            {% if upsell_variant.available %}
+            {% if settings.enable_skip_to_checkout %}
+            {{ settings.skip_cart_submit | default: "Buy now" }}
+            {% else %}
+            Yes ! {{ 'products.product.add_to_cart' | t }}
+            {% endif %}
+            {% else %}
+            {{ 'products.product.sold_out' | t }}
+            {% endif %}
+          </span>
+        </button>
+      </form>
+    </div>
+    <div class="no_tocart_button">
+      <button type="button" class="no_addcart btn" value="NO ! Add To Cart">NO ! Thanks </button>
+    </div>
+  </div>
+</div>
+{% endunless %}
