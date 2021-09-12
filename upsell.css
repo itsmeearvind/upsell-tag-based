@@ -1,0 +1,42 @@
+.upsell_tagBased {
+  position: fixed;
+  z-index: 99999;
+  width: 85%;
+  left: 10%;
+  top: 15%;
+  background: #fff;
+  opacity: 1;
+  box-shadow: 3px 3px 3px 3px #ddd;
+  overflow: hidden;
+}
+
+.upsell_bg {
+  position: fixed;
+  left: 0;
+  z-index: 99999;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: rgba(43,41,37,.6);
+  pointer-events: none !important;
+}
+.upsell__product {
+  display: flex;
+  margin: auto;
+  width: 50%;
+}
+
+span.close {
+  position: absolute;
+  top: 10px;
+  right: 55px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.upsell_addtocart_button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+}
